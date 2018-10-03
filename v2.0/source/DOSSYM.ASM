@@ -1,4 +1,5 @@
 include DOSMAC.ASM
+OPTION NOKEYWORD: <WAIT>
 IF2
     %OUT    DOSSYM in Pass 2
 ENDIF

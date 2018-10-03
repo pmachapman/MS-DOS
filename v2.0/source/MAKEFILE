@@ -1,0 +1,15 @@
+MASMFLAGS = 
+LINKFLAGS = 
+
+ALL: exe2bin.exe
+
+exe2bin.exe: exe2bin.obj exemes.obj
+	link $(LINKFLAGS) exe2bin.obj exemes.obj,exe2bin.exe,nul.map,,nul.def
+exe2bin.obj:
+	masm $(MASMFLAGS) exe2bin.asm
+exemes.obj:
+	masm $(MASMFLAGS) exemes.asm
+
+CLEAN:
+	del *.obj
+	del *.exe

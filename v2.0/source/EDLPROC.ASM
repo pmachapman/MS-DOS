@@ -1,4 +1,4 @@
-
+OPTION NOKEYWORD: <OUT>
 
 FALSE   EQU     0
 TRUE    EQU     NOT FALSE
@@ -526,6 +526,3 @@ ISLEAD:
 
 CODE    ENDS
         END     EDLPROC
-                                               
-
-

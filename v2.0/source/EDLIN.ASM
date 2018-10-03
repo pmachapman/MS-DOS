@@ -90,6 +90,7 @@
 ;                                                                       ;
 ;-----------------------------------------------------------------------;
 
+OPTION NOKEYWORD: <OUT>
 
 FALSE   EQU     0
 TRUE    EQU     NOT FALSE
@@ -827,7 +828,7 @@ TABLE   DW      NOCOM   ;No command--edit line
         DW      NOCOM
         DW      ENDED
         DW      INSERT
-        DW      PAGE
+        DW      NPAGE
         DW      LIST
         DW      DELETE
         dw      replac_from_curr        ;replace from current+1 line
@@ -853,7 +854,7 @@ ROTABLE db      0               ;NOCOM
         db      0               ;NOCOM
         db      0               ;ENDED
         db      0               ;INSERT
-        db      1               ;PAGE
+        db      1               ;NPAGE
         db      1               ;LIST
         db      0               ;DELETE
         db      0               ;replac_from_curr
@@ -1097,7 +1098,7 @@ xERROR:
 
 RET$5:  RET
 
-PAGE:
+NPAGE:
         xor     bx,bx           ;get last line in the buffer
         call    findlin
         mov     [lastlin],dx
@@ -1843,4 +1844,3 @@ DELBAK:
 
 CODE    ENDS
         END     EDLIN
-

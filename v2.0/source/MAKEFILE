@@ -1,7 +1,16 @@
 MASMFLAGS = 
 LINKFLAGS = 
 
-ALL: exe2bin.exe
+ALL: edlin.com exe2bin.exe find.exe
+
+edlin.com: edlin.obj edlmes.obj edlproc.obj
+	link $(LINKFLAGS) /TINY edlin.obj edlmes.obj edlproc.obj,edlin.com,nul.map,,nul.def
+edlin.obj:
+	masm $(MASMFLAGS) edlin.asm
+edlmes.obj:
+	masm $(MASMFLAGS) edlmes.asm
+edlproc.obj:
+	masm $(MASMFLAGS) edlproc.asm
 
 exe2bin.exe: exe2bin.obj exemes.obj
 	link $(LINKFLAGS) exe2bin.obj exemes.obj,exe2bin.exe,nul.map,,nul.def
@@ -10,6 +19,14 @@ exe2bin.obj:
 exemes.obj:
 	masm $(MASMFLAGS) exemes.asm
 
+find.exe: find.obj findmes.obj
+	link $(LINKFLAGS) find.obj findmes.obj,find.exe,nul.map,,nul.def
+find.obj:
+	masm $(MASMFLAGS) find.asm
+findmes.obj:
+	masm $(MASMFLAGS) findmes.asm
+
 CLEAN:
+	del *.com
 	del *.obj
 	del *.exe

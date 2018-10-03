@@ -3,16 +3,16 @@
 
 IF1
     IF IBM
-        %OUT IBM version
+        ECHO IBM version
     ELSE
-        %OUT Normal version
+        ECHO Normal version
     ENDIF
 
     IF   HIGHMEM
-        %OUT Highmem version
+        ECHO Highmem version
     ENDIF
 
     IF   KANJI
-        %OUT Kanji version
+        ECHO Kanji version
     ENDIF
 ENDIF

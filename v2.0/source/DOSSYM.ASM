@@ -1,7 +1,7 @@
 include DOSMAC.ASM
 OPTION NOKEYWORD: <WAIT>
 IF2
-    %OUT    DOSSYM in Pass 2
+    ECHO    DOSSYM in Pass 2
 ENDIF
 
 IFNDEF  ALTVECT
@@ -902,4 +902,3 @@ OEM_C5                          EQU 253 ; 253    FD
 OEM_C6                          EQU 254 ; 254    FE
 OEM_C7                          EQU 255 ; 255    FF
 SUBTTL
-                               

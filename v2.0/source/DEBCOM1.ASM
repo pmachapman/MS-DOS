@@ -2,6 +2,8 @@ TITLE   PART1 DEBUGGER COMMANDS
 
 ; Routines to perform debugger commands except ASSEMble and UASSEMble
 
+OPTION NOKEYWORD: <IN>
+
 .xlist
 .xcref
         INCLUDE DEBEQU.ASM
@@ -44,7 +46,7 @@ ASSUME  CS:DG,DS:DG,ES:DG,SS:DG
         EXTRN   DISPREG:NEAR,DEVIOCALL:NEAR
         endif
 
-        EXTRN   OUT:NEAR,CRLF:NEAR,OUTDI:NEAR,OUTSI:NEAR,SCANP:NEAR
+        EXTRN   CHAROUT:NEAR,CRLF:NEAR,OUTDI:NEAR,OUTSI:NEAR,SCANP:NEAR
         EXTRN   SCANB:NEAR,BLANK:NEAR,TAB:NEAR,PRINTMES:NEAR,COMMAND:NEAR
         EXTRN   HEX:NEAR,BACKUP:NEAR
 
@@ -171,7 +173,7 @@ BYTE1:
         TEST    AL,7                    ; On 8-byte boundary?
         JNZ     BYTE0
         MOV     AL,"-"                  ; Mark every 8 bytes
-        CALL    OUT
+        CALL    CHAROUT
         JMP     SHORT BYTE1
 ENDROW:
         CALL    ASCII                   ; Show it in ASCII
@@ -224,7 +226,7 @@ ASCDMP:
 NOPRT:
         MOV     AL,"."                  ; If unprintable character
 PRIN:
-        CALL    OUT                     ; Print ASCII character
+        CALL    CHAROUT                     ; Print ASCII character
         LOOP    ASCDMP                  ; CX times
         POP     CX                          ; Restore overall dump length
         MOV     ES:WORD PTR [DEFDUMP],SI
@@ -329,12 +331,12 @@ DOSCAN:
         MOV     CX,BX                   ; Area length back in CX
         POP     DI                      ; Next search location
         POP     BX                      ; Restore list length
-        JNZ     TEST                    ; Continue search if no match
+        JNZ     TESTSCAN                ; Continue search if no match
         DEC     DI                      ; Match address
         CALL    OUTDI                   ; Print it
         INC     DI                      ; Restore search address
         CALL    CRLF
-TEST:
+TESTSCAN:
         JCXZ    RET1
         JMP     SHORT SCAN              ; Look for next occurrence
 
@@ -572,7 +574,7 @@ GETBYTE:
         CALL    HEX                     ; And display it
 PUTDOT:
         MOV     AL,"."
-        CALL    OUT                     ; Prompt for new value
+        CALL    CHAROUT                 ; Prompt for new value
         MOV     CX,2                    ; Max of 2 digits in new value
         MOV     DX,0                    ; Intial new value
 GETDIG:
@@ -599,14 +601,14 @@ NOHEX:
         CMP     AL," "                  ; Go to next address
         JZ      NEXT
         MOV     AL,8
-        CALL    OUT                     ; Back   CLDover illegal character
+        CALL    CHAROUT                 ; Back   CLDover illegal character
         CALL    BACKUP
         JCXZ    DWAIT
         JMP     SHORT GETDIG
 
 RUB:
         MOV     AL,8
-        CALL    OUT
+        CALL    CHAROUT
 BS:
         CMP     CL,2                    ; CX=2 means nothing typed yet
         JZ      PUTDOT                  ; Put back the dot we backed     CLDover
@@ -691,4 +693,3 @@ IN:
 
 CODE    ENDS
         END     DEBCOM1
-                                                                                            

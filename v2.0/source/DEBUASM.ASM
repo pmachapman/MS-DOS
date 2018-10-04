@@ -2,6 +2,9 @@ TITLE   DEBUASM
 
 ; Code for the UASSEMble command in the debugger
 
+OPTION NOKEYWORD: <ESC>
+OPTION NOKEYWORD: <FSAVE>
+
 .xlist
 .xcref
         INCLUDE DEBEQU.ASM
@@ -53,7 +56,7 @@ ASSUME  CS:DG,DS:DG,ES:DG,SS:DG
         PUBLIC  INVARW,STOREACC,INFIXB,NOOPERANDS,ALUTOREG
         PUBLIC  SEGOP,REGOP,GETADDR
 
-        EXTRN   CRLF:NEAR,PRINTMES:NEAR,BLANK:NEAR,TAB:NEAR,OUT:NEAR
+        EXTRN   CRLF:NEAR,PRINTMES:NEAR,BLANK:NEAR,TAB:NEAR,CHAROUT:NEAR
         EXTRN   HEX:NEAR,DEFAULT:NEAR,OUTSI:NEAR,OUTDI:NEAR
 
 UNASSEM:
@@ -148,7 +151,7 @@ FINLN:
         JZ      NOOPC
         CALL    PRINTMES                ; Print opcode mnemonic
         MOV     AL,9
-        CALL    OUT                     ; and a tab
+        CALL    CHAROUT                 ; and a tab
 NOOPC:  MOV     SI,OFFSET DG:OPBUF
         JMP     PRINTMES                ; and the operand buffer
 
@@ -865,4 +868,3 @@ INDIRECT:
 
 CODE    ENDS
         END     UNASSEM
-                                                                                                                    

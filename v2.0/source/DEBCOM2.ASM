@@ -2,6 +2,8 @@ TITLE   PART2 DEBUGGER COMMANDS
 
 ; Routines to perform debugger commands except ASSEMble and UASSEMble
 
+OPTION NOKEYWORD: <NAME>
+OPTION NOKEYWORD: <FSAVE>
 .xlist
 .xcref
         INCLUDE DEBEQU.ASM
@@ -53,7 +55,7 @@ ASSUME  CS:DG,DS:DG,ES:DG,SS:DG
         endif
 
         EXTRN   GETHEX:NEAR,GETEOL:NEAR
-        EXTRN   CRLF:NEAR,BLANK:NEAR,OUT:NEAR
+        EXTRN   CRLF:NEAR,BLANK:NEAR,CHAROUT:NEAR
         EXTRN   OUTSI:NEAR,OUTDI:NEAR,INBUF:NEAR,SCANB:NEAR,SCANP:NEAR
         EXTRN   RPRBUF:NEAR,HEX:NEAR,OUT16:NEAR,DIGIT:NEAR
         EXTRN   COMMAND:NEAR,DISASLN:NEAR,SET_TERMINATE_VECTOR:NEAR
@@ -104,15 +106,15 @@ NOOVER:
         MOV     BX,AX
         SHL     BX,1
         MOV     AX,WORD PTR [BX+SREG]
-        CALL    OUT
+        CALL    CHAROUT
         XCHG    AL,AH
-        CALL    OUT
+        CALL    CHAROUT
         MOV     AL,":"
-        CALL    OUT
+        CALL    CHAROUT
         MOV     DX,[INDEX]
         CALL    OUT16
         MOV     AL,"="
-        CALL    OUT
+        CALL    CHAROUT
         MOV     BX,[BX+SEGTAB]
         PUSH    DS
         MOV     DS,[BX]
@@ -159,9 +161,9 @@ REG:
         DEC     DI
         MOV     AX,CS:[DI-2]
 NOTPC:
-        CALL    OUT
+        CALL    CHAROUT
         MOV     AL,AH
-        CALL    OUT
+        CALL    CHAROUT
         CALL    BLANK
         PUSH    DS
         POP     ES
@@ -170,7 +172,7 @@ NOTPC:
         CALL    OUT16
         CALL    CRLF
         MOV     AL,":"
-        CALL    OUT
+        CALL    CHAROUT
         CALL    INBUF
         CALL    SCANB
         JZ      RET4
@@ -187,7 +189,7 @@ FLAG:
         JNZ     BADREG
         CALL    DISPFLAGS
         MOV     AL,"-"
-        CALL    OUT
+        CALL    CHAROUT
         CALL    INBUF
         CALL    SCANB
         XOR     BX,BX
@@ -220,11 +222,11 @@ NEXFLG:
         JMP     SHORT GETFLG
 DISPREGLINE:
         LODS    CS:WORD PTR [SI]
-        CALL    OUT
+        CALL    CHAROUT
         MOV     AL,AH
-        CALL    OUT
+        CALL    CHAROUT
         MOV     AL,"="
-        CALL    OUT
+        CALL    CHAROUT
         MOV     DX,[BX]
         INC     BX
         INC     BX
@@ -238,9 +240,9 @@ REPFLG:
 FERR:
         CALL    SAVCHG
 ERR:
-        CALL    OUT
+        CALL    CHAROUT
         MOV     AL,AH
-        CALL    OUT
+        CALL    CHAROUT
         MOV     SI,OFFSET DG:ERRMES
         JMP     PRINT
 SAVCHG:
@@ -261,9 +263,9 @@ DFLAGS:
 FLAGSET:
         OR      AX,AX
         JZ      NEXTFLG
-        CALL    OUT
+        CALL    CHAROUT
         MOV     AL,AH
-        CALL    OUT
+        CALL    CHAROUT
         CALL    BLANK
 NEXTFLG:
         LOOP    DFLAGS

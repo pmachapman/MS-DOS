@@ -1,3 +1,5 @@
+OPTION NOKEYWORD: <FSAVE>
+
 .xlist
 .xcref
 INCLUDE debequ.asm
@@ -1100,4 +1102,3 @@ COM_CSIP DD     ?
 
 CONST   ENDS
         END
-                                                                                                                

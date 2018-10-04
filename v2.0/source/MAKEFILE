@@ -1,10 +1,29 @@
 MASMFLAGS = 
 LINKFLAGS = 
 
-ALL: edlin.com exe2bin.exe find.exe
+ALL: debug.com edlin.com exe2bin.exe fc.exe find.exe more.com
 
-edlin.com: edlin.obj edlmes.obj edlproc.obj
-	link $(LINKFLAGS) /TINY edlin.obj edlmes.obj edlproc.obj,edlin.com,nul.map,,nul.def
+debug.com: debug.obj debasm.obj debcom1.obj debcom2.obj debconst.obj debdata.obj debmes.obj debuasm.obj
+	link $(LINKFLAGS) /TINY debug.obj debasm.obj debcom1.obj debcom2.obj debconst.obj debdata.obj debmes.obj debuasm.obj,debug.com,nul.map,,nul.def
+debug.obj:
+	masm $(MASMFLAGS) debug.asm
+debasm.obj:
+	masm $(MASMFLAGS) debasm.asm
+debcom1.obj:
+	masm $(MASMFLAGS) debcom1.asm
+debcom2.obj:
+	masm $(MASMFLAGS) debcom2.asm
+debconst.obj:
+	masm $(MASMFLAGS) debconst.asm
+debdata.obj:
+	masm $(MASMFLAGS) debdata.asm
+debmes.obj:
+	masm $(MASMFLAGS) debmes.asm
+debuasm.obj:
+	masm $(MASMFLAGS) debuasm.asm
+
+edlin.com: edlin.obj edlproc.obj edlmes.obj
+	link $(LINKFLAGS) /TINY edlin.obj edlproc.obj edlmes.obj,edlin.com,nul.map,,nul.def
 edlin.obj:
 	masm $(MASMFLAGS) edlin.asm
 edlmes.obj:
@@ -19,12 +38,26 @@ exe2bin.obj:
 exemes.obj:
 	masm $(MASMFLAGS) exemes.asm
 
+fc.exe: fc.obj fcmes.obj
+	link $(LINKFLAGS) fc.obj fcmes.obj,fc.exe,nul.map,,nul.def
+fc.obj:
+	masm $(MASMFLAGS) fc.asm
+fcmes.obj:
+	masm $(MASMFLAGS) fcmes.asm
+
 find.exe: find.obj findmes.obj
 	link $(LINKFLAGS) find.obj findmes.obj,find.exe,nul.map,,nul.def
 find.obj:
 	masm $(MASMFLAGS) find.asm
 findmes.obj:
 	masm $(MASMFLAGS) findmes.asm
+
+more.com: more.obj moremes.obj
+	link $(LINKFLAGS) /TINY more.obj moremes.obj,more.exe,nul.map,,nul.def
+more.obj:
+	masm $(MASMFLAGS) more.asm
+moremes.obj:
+	masm $(MASMFLAGS) moremes.asm
 
 CLEAN:
 	del *.com

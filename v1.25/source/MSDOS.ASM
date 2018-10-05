@@ -32,6 +32,11 @@
 ;
 ; *************************************************************
 
+; Flags for MASM 6.11
+OPTION NOKEYWORD: <ESC>
+OPTION NOKEYWORD: <FSAVE>
+OPTION NOKEYWORD: <IN>
+OPTION NOKEYWORD: <OUT>
 
 ; Interrupt Entry Points:
 
@@ -272,7 +277,7 @@ COMMAND: ;Interrupt call entry point
         JBE     SAVREGS
 BADCALL:
         MOV     AL,0
-IRET:   IRET
+DOSIRET:   IRET
 
 ENTRY:  ;System call entry point and dispatcher
         POP     AX              ;IP from the long call at 5
@@ -3949,8 +3954,8 @@ SETEND:
         MOV     CX,9
         REP STOSW               ;Set 5 segments (skip 2 between each)
         MOV     WORD PTR DS:[INTBASE+4],OFFSET DOSGROUP:COMMAND
-        MOV     WORD PTR DS:[INTBASE+12],OFFSET DOSGROUP:IRET   ;Ctrl-C exit
-        MOV     WORD PTR DS:[INTBASE+16],OFFSET DOSGROUP:IRET   ;Fatal error exit
+        MOV     WORD PTR DS:[INTBASE+12],OFFSET DOSGROUP:DOSIRET   ;Ctrl-C exit
+        MOV     WORD PTR DS:[INTBASE+16],OFFSET DOSGROUP:DOSIRET   ;Fatal error exit
         MOV     AX,OFFSET BIOSREAD
         STOSW
         MOV     AX,BIOSSEG

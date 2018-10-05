@@ -1,3 +1,6 @@
 *.com
-*.obj
 *.exe
+*.hex
+*.obj
+*.prn
+*.sys

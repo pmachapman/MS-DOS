@@ -14,7 +14,7 @@ IO.ASM - I/O system unique to SCP (equivalent to ibmbio.sys).
 ASM.ASM & HEX2BIN.ASM - Old 8086 assembler developed by SCP (used to assemble older version of DOS).
 TRANS.ASM - Z80 to 8086 assembly source code translator developed by SCP.
  
-I also have a 6” stack of printouts of assembly listings for some of these and probably other related programs.
+I also have a 6" stack of printouts of assembly listings for some of these and probably other related programs.
  
 Tim Paterson
 Paterson Technology

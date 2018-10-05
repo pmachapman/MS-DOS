@@ -1,0 +1,52 @@
+ASM = ..\tools\asm
+MASM = masm
+MASMFLAGS =
+HEX2BIN = ..\tools\hex2bin
+LINK = link
+LINKFLAGS = /TINY
+
+ALL: asm.com command.com hex2bin.com io.sys msdos.sys trans.com
+
+asm.com: asm.hex
+	$(HEX2BIN) asm
+
+asm.hex:
+	$(ASM) asm
+
+command.com: command.obj
+	$(LINK) $(LINKFLAGS) command.obj,command.com,nul.map,,nul.def
+
+command.obj:
+	$(MASM) $(MASMFLAGS) command.asm
+
+hex2bin.com: hex2bin.hex
+	$(HEX2BIN) hex2bin
+
+hex2bin.hex:
+	$(ASM) hex2bin
+
+io.sys: io.hex
+	$(HEX2BIN) io
+	ren io.com io.sys
+
+io.hex:
+	$(ASM) io
+
+msdos.sys: stddos.obj
+	$(LINK) $(LINKFLAGS) stddos.obj,msdos.sys,nul.map,,nul.def
+
+stddos.obj:
+	$(MASM) $(MASMFLAGS) stddos.asm
+
+trans.com: trans.hex
+	$(HEX2BIN) trans
+
+trans.hex:
+	$(ASM) trans
+
+CLEAN:
+	del *.com
+	del *.hex
+	del *.obj
+	del *.prn
+	del *.sys

@@ -14,6 +14,9 @@
 ; reloaded. Thus programs which do not need maximum memory will save
 ; the time required to reload COMMAND when they terminate.
 
+; Flags for MASM 6.11
+OPTION NOKEYWORD: <OUT>
+
 ;Use the following booleans to set assembly flags
 FALSE   EQU     0
 TRUE    EQU     NOT FALSE
@@ -97,7 +100,7 @@ TRANGROUP       GROUP   TRANCODE,TRANDATA,TRANSPACE
 
 DATARES SEGMENT BYTE
         ORG     0
-ZERO    =       $
+DATAZERO =      $
 MESBAS  DW      OFFSET RESGROUP:ERR0
         DW      OFFSET RESGROUP:ERR2
         DW      OFFSET RESGROUP:ERR4
@@ -146,14 +149,14 @@ BATBYT  DB      ?
 MEMSIZ  DW      ?
 SUM     DW      ?
 INITADD DB      4 DUP(?)
-RESDATASIZE     EQU     $-ZERO
+RESDATASIZE     EQU     $-DATAZERO
 DATARES ENDS
 
 ;Data for transient portion
 
 TRANDATA        SEGMENT BYTE
         ORG     0
-ZERO    EQU     $
+TRANZERO EQU    $
 BADNAM  DB      "Bad command or file name",13,10,"$"
 MISNAM  DB      "Missing file name$"
 RENERR  DB      "Duplicate file name or "
@@ -204,7 +207,7 @@ COMTAB  DB      4,"DIR",1
 
 COMBUF  DB      128,1,13
 
-TRANDATASIZE    EQU     $-ZERO
+TRANDATASIZE    EQU     $-TRANZERO
 TRANDATA        ENDS
 
 ;Uninitialized transient data
@@ -2151,9 +2154,9 @@ SETUP:
         MOV     AX,WORD PTR CS:[PARM1]  ;Pass on info about FCBs
         XOR     CX,CX
         MOV     DX,CX           ;Assume no batch file
-ASSUME  CS:RESGROUP
-        TEST    CS:[BATCH],-1   ;Batch file in progress?
-ASSUME  CS:TRANGROUP
+ASSUME  DS:RESGROUP
+        TEST    DS:[BATCH],-1   ;Batch file in progress?
+ASSUME  DS:TRANGROUP
         JZ      RET120          ;If not, all set up
         MOV     CX,CS:[RESSEG]
         MOV     DX,OFFSET RESGROUP:BATFCB       ;CX:DX points to batch FCB

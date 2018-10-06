@@ -1,7 +1,16 @@
 MASMFLAGS = 
 LINKFLAGS = 
 
-ALL: debug.com edlin.com exe2bin.exe fc.exe find.exe more.com
+ALL: chkdsk.com debug.com diskcopy.com edlin.com exe2bin.exe fc.exe find.exe format.com more.com print.com recover.com sort.exe sys.com
+
+chkdsk.com: chkdsk.obj chkproc.obj chkmes.obj
+	link $(LINKFLAGS) /TINY chkdsk.obj chkproc.obj chkmes.obj,chkdsk.com,nul.map,,nul.def
+chkdsk.obj:
+	masm $(MASMFLAGS) chkdsk.asm
+chkproc.obj:
+	masm $(MASMFLAGS) chkproc.asm
+chkmes.obj:
+	masm $(MASMFLAGS) chkmes.asm
 
 debug.com: debug.obj debasm.obj debcom1.obj debcom2.obj debconst.obj debdata.obj debmes.obj debuasm.obj
 	link $(LINKFLAGS) /TINY debug.obj debasm.obj debcom1.obj debcom2.obj debconst.obj debdata.obj debmes.obj debuasm.obj,debug.com,nul.map,,nul.def
@@ -21,6 +30,13 @@ debmes.obj:
 	masm $(MASMFLAGS) debmes.asm
 debuasm.obj:
 	masm $(MASMFLAGS) debuasm.asm
+
+diskcopy.com: diskcopy.obj diskmes.obj
+	link $(LINKFLAGS) /TINY diskcopy.obj diskmes.obj,diskcopy.com,nul.map,,nul.def
+diskcopy.obj:
+	masm $(MASMFLAGS) diskcopy.asm
+diskmes.obj:
+	masm $(MASMFLAGS) diskmes.asm
 
 edlin.com: edlin.obj edlproc.obj edlmes.obj
 	link $(LINKFLAGS) /TINY edlin.obj edlproc.obj edlmes.obj,edlin.com,nul.map,,nul.def
@@ -52,12 +68,47 @@ find.obj:
 findmes.obj:
 	masm $(MASMFLAGS) findmes.asm
 
+format.com: format.obj oemfor.obj formes.obj
+	link $(LINKFLAGS) /TINY format.obj oemfor.obj formes.obj,format.com,nul.map,,nul.def
+format.obj:
+	masm $(MASMFLAGS) format.asm
+oemfor.obj:
+	masm $(MASMFLAGS) oemfor.asm
+formes.obj:
+	masm $(MASMFLAGS) formes.asm
+
 more.com: more.obj moremes.obj
-	link $(LINKFLAGS) /TINY more.obj moremes.obj,more.exe,nul.map,,nul.def
+	link $(LINKFLAGS) /TINY more.obj moremes.obj,more.com,nul.map,,nul.def
 more.obj:
 	masm $(MASMFLAGS) more.asm
 moremes.obj:
 	masm $(MASMFLAGS) moremes.asm
+
+print.com: print.obj
+	link $(LINKFLAGS) /TINY print.obj,print.com,nul.map,,nul.def
+print.obj:
+	masm $(MASMFLAGS) print.asm
+
+recover.com: recover.obj recmes.obj
+	link $(LINKFLAGS) /TINY recover.obj recmes.obj,recover.com,nul.map,,nul.def
+recover.obj:
+	masm $(MASMFLAGS) recover.asm
+recmes.obj:
+	masm $(MASMFLAGS) recmes.asm
+
+sort.exe: sort.obj sortmes.obj
+	link $(LINKFLAGS) sort.obj sortmes.obj,sort.exe,nul.map,,nul.def
+sort.obj:
+	masm $(MASMFLAGS) sort.asm
+sortmes.obj:
+	masm $(MASMFLAGS) sortmes.asm
+
+sys.com: sys.obj sysmes.obj
+	link $(LINKFLAGS) /TINY sys.obj sysmes.obj,sys.com,nul.map,,nul.def
+sys.obj:
+	masm $(MASMFLAGS) sys.asm
+sysmes.obj:
+	masm $(MASMFLAGS) sysmes.asm
 
 CLEAN:
 	del *.com

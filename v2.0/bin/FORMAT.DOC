@@ -389,5 +389,4 @@ FATBUF          DB      6 * 1024 DUP(?) ; Fat buffer
 ENDBOOT         LABEL   BYTE
 
 CODE    ENDS
-        END     
-                                 
+        END
